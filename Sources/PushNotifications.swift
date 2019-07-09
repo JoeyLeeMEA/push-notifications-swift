@@ -25,8 +25,10 @@ import Foundation
                     self?.delegate?.interestsSetOnDeviceDidChange(interests: interests)
                 case .UserIdSetEvent(let userId, let error):
                     if !(self?.userIdCallbacks.isEmpty ?? true) {
-                        if let completion = self?.userIdCallbacks[userId]?.removeFirst() {
-                            completion(error)
+                        if self?.userIdCallbacks[userId]?.count ?? 0 > 0 {
+                            if let completion = self?.userIdCallbacks[userId]?.removeFirst() {
+                                completion(error)
+                            }
                         }
                     }
                 case .StopEvent:
